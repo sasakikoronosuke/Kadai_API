@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang =" "ja"><br /><head><br /><meta charset =" "utf-8">
+<title>Translation to Japanese!</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  textarea {
+    width: 500px;
+    height:250px;
+  }
+</style>
+</head>
+<body>
+  <h1>Enjoy your travel in Japan!  </h1>
+  <h2>if you find any difficulty of <br> communication with local people, 
+    <br>try to use this app!</h2>
+
+<script>
+
+const API_KEY = 'APIキーを入力！';
+const API_URL = 'https://api-free.deepl.com/v2/translate';
+
+function output() {
+  const entext = document.getElementById("entext").value;
+
+  let content = encodeURI('auth_key=' + API_KEY + '&text=' + entext + '&source_lang=EN&target_lang=JA');
+  let url = API_URL + '?' + content;
+
+  fetch(url)
+    .then(function(response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Could not reach the API: " + response.statusText);
+        }
+    }).then(function(data) {
+        document.getElementById("jatext").value = data["translations"][0]["text"];
+    }).catch(function(error) {
+        document.getElementById("jatext").value = error.message;
+    });
+};
+</script>
+<textarea id="entext" placeholder="Write English words here"></textarea>
+
+
+<input id="translation" type="button" value="Translate to Japanese" onclick="output()" />
+
+
+<textarea id="jatext"></textarea>
+</body>
+</html>
